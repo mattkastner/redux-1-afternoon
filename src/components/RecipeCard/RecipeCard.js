@@ -1,8 +1,12 @@
 import React from "react";
 import "./RecipeCard.css";
 
+import store from '../../store'
+import {DELETE_RECIPE} from '../../reducer'
+
 let RecipeCard = props => {
   const {
+    id,
     name,
     category,
     authorFirst,
@@ -10,6 +14,7 @@ let RecipeCard = props => {
     ingredients,
     instructions
   } = props;
+
   const ingredientsDisplay = ingredients.map((ingredient, i) => {
     return <li key={i}>{ingredient}</li>;
   });
@@ -33,7 +38,7 @@ let RecipeCard = props => {
       <div className="scroll_container">
         <ol className="list">{instructionsDisplay}</ol>
       </div>
-      <svg
+      <svg onClick={() => {store.dispatch({type: DELETE_RECIPE, payload: id})}}
         className="delete"
         width="60"
         height="60"

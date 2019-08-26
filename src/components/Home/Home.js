@@ -3,12 +3,23 @@ import { Link } from "react-router-dom";
 import RecipeCard from "./../RecipeCard/RecipeCard";
 import "./Home.css";
 
+import store from '../../store'
+
 class Home extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      recipes: []
+      recipes: store.getState().recipes
     };
+  }
+
+  componentDidMount(){
+    store.subscribe(() => {
+      this.setState({
+        recipes: store.getState().recipes
+      })
+    })
   }
 
   render() {
@@ -16,6 +27,7 @@ class Home extends Component {
       return (
         <RecipeCard
           key={i}
+          id={recipe.id}
           name={recipe.name}
           category={recipe.category}
           authorFirst={recipe.authorFirst}

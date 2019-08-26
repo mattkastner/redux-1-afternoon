@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import store from "../../store";
+
+import {ADD_INGREDIENTS} from '../../reducer'
 
 class Ingredients extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      ingredients: [],
+      ingredients: store.getState().ingredients,
       input: ""
     };
   }
@@ -15,13 +19,23 @@ class Ingredients extends Component {
     });
   }
   addIngredient() {
-    // Send data to Redux state
+    store.dispatch({type: ADD_INGREDIENTS, payload: this.state.input})
     this.setState({
       input: ""
     });
   }
+
+  componentDidMount(){
+    store.subscribe(() => {
+      this.setState({
+        ingredients: this.state.ingredients
+      })
+    })
+  }
+
   render() {
     const ingredients = this.state.ingredients.map((ingredient, i) => {
+      console.log(ingredient)
       return <li key={i}>{ingredient}</li>;
     });
     return (
